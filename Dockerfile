@@ -8,7 +8,6 @@ COPY requirements.txt .
 RUN pip install --upgrade pip \
     && pip install --user --no-cache-dir -r requirements.txt
 
-    
 FROM python:${PYTHON_VERSION}-slim
 
 ENV PYTHONUNBUFFERED=1
@@ -21,8 +20,6 @@ ENV PATH=/root/.local/bin:$PATH
 
 COPY . .
 
-RUN python manage.py migrate
+EXPOSE 8080
 
-EXPOSE 8000
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8080"]
